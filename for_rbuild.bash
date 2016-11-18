@@ -21,18 +21,33 @@ color_prefix() {
 # --------------------------------------------
 #              SETTINGS
 # --------------------------------------------
-error=1
-warning=2
-debug=3
-info=4
+# Constant vars:
+readonly error=1
+readonly warning=2
+readonly debug=3
+readonly info=4
+readonly DEFAULT_LEVEL=$debug
+readonly DEFAULT_SILENT=1
+readonly DEFAULT_SYSVERBOSE=0
+readonly DEFAULT_VERBOSE=0
+readonly DEFAULT_LOG=./log.txt
+readonly DEFAULT_SYSLOG=./syslog.txt
 
+# Set values you need:
 LEVEL=$warning
 SILENT=1
 SYSVERBOSE=0
 VERBOSE=0
-LOG=/home/ekat/docs/studying/programming/bash/task_parser/log.txt
-SYSLOG=/home/ekat/docs/studying/programming/bash/task_parser/syslog.txt
+LOG=./log.txt
+SYSLOG=./syslog.txt
 
+# Do not change that code:
+LEVEL=${LEVEL:-$DEFAULT_LEVEL}
+SILENT=${SILENT:-$DEFAULT_SILENT}
+SYSVERBOSE=${SYSVERBOSE:-$DEFAULT_SYSVERBOSE}
+VERBOSE=${VERBOSE:-$DEFAULT_VERBOSE}
+LOG=${LOG:-$DEFAULT_LOG}
+SYSLOG=${SYSLOG:-$DEFAULT_SYSLOG}
 #-----------------------------------------
 #           SEND FUNCTIONS
 #-----------------------------------------
@@ -44,62 +59,43 @@ export -f sendDISP
 
 sendINFO() { 
 	color_prefix "LGREEN" "$1"
-	if (( $LEVEL>=$info )); then echo "$1" >$LOG
-	fi
+	if (( $LEVEL>=$info )); then echo "$1" >$LOG; fi
 }
 export -f sendINFO
 
 sendWARN() {
-	if (( $SILENT != 0 )); then color_prefix "YELLOW" $1
-	fi
-	
-	if (( $LEVEL >= $warning )); then echo "$1" >$LOG
-	fi
+	if (( $SILENT != 0 )); then color_prefix "YELLOW" $1; fi	
+	if (( $LEVEL >= $warning )); then echo "$1" >$LOG; 	fi
 }
 
 sendERR(){
 	color_prefix "RED" "$1" >&2
-	if (( $LEVEL>=$warning )); then echo "$1" >$LOG
-	fi
+	if (( $LEVEL>=$warning )); then echo "$1" >$LOG; fi
 }
 
 sendDBGLOG(){
-	if (( $SYSVERBOSE == 0 )); then color_prefix "YELLOW" "$1" >&2
-	fi
-	
-	if (( $LEVEL>=$debug )); then echo "$1" >$LOG
-	fi
+	if (( $SYSVERBOSE == 0 )); then color_prefix "YELLOW" "$1" >&2; fi	
+	if (( $LEVEL>=$debug )); then echo "$1" >$LOG; 	fi
 }
 
 sendDBG(){
-	if (( $VERBOSE == 0 )); then color_prefix "GREEN" "$1"
-	fi
-	
-	if (( $LEVEL>=$debug )); then echo "$1" >$LOG
-	fi
+	if (( $VERBOSE == 0 )); then color_prefix "GREEN" "$1"; fi
+	if (( $LEVEL>=$debug )); then echo "$1" >$LOG; fi
 }
 
 sendSYSWARN(){
-	if (( $VERBOSE == 0 )); then color_prefix "YELLOW" "$1"
-	fi
-	
-	if (( $LEVEL>=$warning )); then echo "$1" >$SYSLOG
-	fi
+	if (( $VERBOSE == 0 )); then color_prefix "YELLOW" "$1"; fi	
+	if (( $LEVEL>=$warning )); then echo "$1" >$SYSLOG; fi
 }
 
 sendSYSERR(){
 	color_prefix "RED" $1 >&2
-	
-	if (( $LEVEL>=$error )); then echo "$1" >$SYSLOG
-	fi
+	if (( $LEVEL>=$error )); then echo "$1" >$SYSLOG; fi
 }
 
 sendSYSDBG(){
-	if (( $SYSVERBOSE == 0 )); then color_prefix "RED" "$1" >&2
-	fi
-	
-	if (( $LEVEL>=$debug )); then echo "$1" >$SYSLOG
-	fi
+	if (( $SYSVERBOSE == 0 )); then color_prefix "RED" "$1" >&2; fi	
+	if (( $LEVEL>=$debug )); then echo "$1" >$SYSLOG; fi
 }
 
 #-----------------------------------------

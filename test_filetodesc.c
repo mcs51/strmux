@@ -8,15 +8,31 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <errno.h>
+#include <string.h>
+#include <stdlib.h>
 
 int main (int argc, char **argv)
 {
 	FILE * files[8];
 	FILE * streams[8];
-	int descs[10] = {100, 101, 102, 103, 104, 105, 106, 107, 108};
-	size_t sz;
-	int i;
+    extern char **environ;
+    
+    int descs[10];
+    size_t sz;
 	char buf[128];
+    int i=0,j=0, k=0;
+    
+    while (environ[i]!=NULL && j<10)
+    {
+        if ( strncmp(environ[i], "FILEDESC_", 9) == 0)
+        {
+           for(k=0;environ[i][k]!='=';k++);
+           descs[j]=atoi(environ[i]+k+1);
+           j++;
+        }
+        i++;
+    }    
+
 	for (i=0; i<argc-1;i++)
 	{
 		files[i]=fopen(argv[i+1], "r");

@@ -21,6 +21,7 @@ color_prefix() {
 # --------------------------------------------
 #              SETTINGS
 # --------------------------------------------
+
 # Constant vars:
 readonly error=1
 readonly warning=2
@@ -48,6 +49,7 @@ SYSVERBOSE=${SYSVERBOSE:-$DEFAULT_SYSVERBOSE}
 VERBOSE=${VERBOSE:-$DEFAULT_VERBOSE}
 LOG=${LOG:-$DEFAULT_LOG}
 SYSLOG=${SYSLOG:-$DEFAULT_SYSLOG}
+
 #-----------------------------------------
 #           SEND FUNCTIONS
 #-----------------------------------------

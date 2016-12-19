@@ -1,0 +1,46 @@
+files:
+  stdout:
+    path: /dev/fd/1
+  stderr:
+    path: /dev/fd/2
+  log:
+    path: ./build.log
+  syslog:
+    path: ./system.log
+args:
+  SYSVERBOSE: [ 0, 1 ]
+  VERBOSE: [ 0, 1 ]
+  SILENT: [ 0, 1 ]
+  LEVEL: [ error, warning, info, debug ]
+formatter:
+  green_prefix: "color_prefix \"GREEN\" \"$1\"\necho \"HELLO!\"\necho \"GOOD BYE!\""
+  lgreen_prefix: "color_prefix \"LGREEN\" \"$1\""
+  yellow_prefix: "color_prefix \"YELLOW\" \"$1\""
+  red_prefix: "color_prefix \"RED\" \"$1\""
+streams:
+  disp:
+    stdout: { formatter: lgreen_prefix }
+  info:
+    stdout: { }
+    log: { LEVEL: info }
+  warn:
+    stdout: { VERBOSE: 1, SILENT: 0, formatter: yellow_prefix } 
+    log: { LEVEL: warning }
+  err: 
+    stderr: { formatter: red_prefix } 
+    log: { LEVEL: error }
+  dbglog: 
+    stderr: { SYSVERBOSE: 1, formatter: yellow_prefix }
+    log: { LEVEL: debug }
+  dbg: 
+    stdout: { VERBOSE: 1, formatter: green_prefix }
+    log: { LEVEL: debug }
+  syswarn:
+    stdout: { VERBOSE: 1, formatter: yellow_prefix } 
+    syslog: { LEVEL: warning }
+  syserr:
+    stderr: { formatter: red_prefix } 
+    syslog: { LEVEL: error }
+  sysdbg:
+    stderr: { SYSVERBOSE: 1, formatter: red_prefix}
+    syslog: { LEVEL: debug }

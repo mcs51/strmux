@@ -21,17 +21,17 @@ streams:
   disp:
     stdout: { formatter: lgreen_prefix }
   info:
-    stdout: { }
-    log: { LEVEL: info }
+    stdout: { LEVEL: ">=warning" }
+    log: { LEVEL: ">info" }
   warn:
     stdout: { VERBOSE: 1, SILENT: 0, formatter: yellow_prefix } 
-    log: { LEVEL: warning }
+    log: { LEVEL: "<=warning" }
   err: 
     stderr: { formatter: red_prefix } 
-    log: { LEVEL: error }
+    log: { LEVEL: "<error" }
   dbglog: 
     stderr: { SYSVERBOSE: 1, formatter: yellow_prefix }
-    log: { LEVEL: debug }
+    log: { LEVEL: "debug" }
   dbg: 
     stdout: { VERBOSE: 1, formatter: green_prefix }
     log: { LEVEL: debug }
@@ -42,5 +42,5 @@ streams:
     stderr: { formatter: red_prefix } 
     syslog: { LEVEL: error }
   sysdbg:
-    stderr: { SYSVERBOSE: 1, formatter: red_prefix}
+    stderr: { SYSVERBOSE: 1, formatter: red_prefix }
     syslog: { LEVEL: debug }
